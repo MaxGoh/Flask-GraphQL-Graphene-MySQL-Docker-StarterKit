@@ -4,8 +4,8 @@ import os
 class Config(object):
     ENV = os.environ['ENV']
     CSRF_ENABLED = True
-    JWT_SECRET_KEY = "asd"
-    SECRET_KEY = "asd"
+    JWT_SECRET_KEY = "this_is_a_secret_key"
+    SECRET_KEY = "this_is_a_secret_key"
 
     # Database Setup
     SQLALCHEMY_TRACK_MODIFICATIONS = False
