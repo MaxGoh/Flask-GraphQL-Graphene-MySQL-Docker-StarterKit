@@ -1,0 +1,33 @@
+[project]
+name = "flask-graphql-starterkit"
+version = "2.0.0"
+description = "Flask + Strawberry GraphQL + SQLAlchemy 2 + MySQL + Docker starter kit"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1",
+    "flask-sqlalchemy>=3.1",
+    "flask-migrate>=4.1",
+    "flask-jwt-extended>=4.7",
+    "strawberry-graphql[flask]>=0.262",
+    "sqlalchemy>=2.0",
+    "pymysql>=1.1",
+    "cryptography>=44.0",
+    "gunicorn>=23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.9",
+]
+
+[tool.setuptools]
+packages = { find = { include = ["app*"] } }
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

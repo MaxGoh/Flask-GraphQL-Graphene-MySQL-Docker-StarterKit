@@ -1,20 +1,22 @@
-# Use an official Python runtime as an image
-FROM python:3.7
+# syntax=docker/dockerfile:1
+FROM python:3.13-slim
 
-# Copy all essentials file
-COPY ./requirements.txt /usr/src/app/requirements.txt
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# Work Directory
 WORKDIR /usr/src/app
 
-# Install requirements
-RUN pip install -r requirements.txt
+# Install dependencies first for better layer caching
+COPY pyproject.toml ./
+RUN pip install --no-cache-dir .
 
-# Copy the rest
-COPY . /usr/src/app
+# Copy the application
+COPY . .
 
-# Expose Port
+# Run as a non-root user
+RUN useradd --create-home appuser && chown -R appuser /usr/src/app
+USER appuser
+
 EXPOSE 5000
 
-# Start application
-CMD [ "python", "manage.py", "runserver" ]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "wsgi:app"]
